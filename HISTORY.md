@@ -5,6 +5,8 @@
 In 2008, Bart van der Schans < bart DOT vanderschans AT bloomreach DOT com >
 originally implemented this jcr-shell Hippo Forge project.
 
+Frank van Lankvelt also contributed to the project.
+
 Version 1.01.00, 1.01.01, 1.01.02 and 1.01.03 were released afterward.
 
 ## Putting in Attic
