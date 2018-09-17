@@ -570,8 +570,8 @@ public final class JcrWrapper {
         getShellSession().session.exportSystemView(absPath, out, skipBinary, false);
     }
 
-    public static void importXml(String parentAbsPath, InputStream in, int uuidBehavior, int referenceBehavior,
-            int mergeBehavior) throws IOException, RepositoryException {
+    public static void importXml(String parentAbsPath, InputStream in, int uuidBehavior)
+            throws IOException, RepositoryException {
         JcrWrapper.removeFromCache(parentAbsPath);
         getShellSession().session.importXML(parentAbsPath, in, uuidBehavior);
     }

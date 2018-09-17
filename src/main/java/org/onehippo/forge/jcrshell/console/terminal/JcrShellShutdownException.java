@@ -13,23 +13,23 @@
  *  See the License for the specific language governing permissions and
  *  limitations under the License.
  */
-package org.onehippo.forge.jcrshell.core.completers;
+package org.onehippo.forge.jcrshell.console.terminal;
 
-import java.util.HashMap;
+/**
+ * Simple runtime exception for indicating shutdown of the shell.
+ */
+public class JcrShellShutdownException extends RuntimeException {
 
-import org.onehippo.forge.jcrshell.core.Command;
+    /**
+     * Serial.
+     */
+    private static final long serialVersionUID = -8643561635607100664L;
 
-import jline.console.completer.Completer;
-
-public final class CompleterFactory {
-
-    static final HashMap<Command.ArgumentType.Flags, Class<? extends Completer>> completers = new HashMap();
-
-    public static void registerCompleter(Command.ArgumentType.Flags type, Class<? extends Completer> clazz) {
-        completers.put(type, clazz);
+    /**
+     * Just an empty constructor.
+     */
+    public JcrShellShutdownException() {
+        super();
     }
 
-    public static Class<? extends Completer> getCompleter(Command.ArgumentType.Flags type) {
-        return completers.get(type);
-    }
 }
