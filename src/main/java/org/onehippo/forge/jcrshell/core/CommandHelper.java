@@ -1,5 +1,5 @@
 /*
- *  Copyright 2008 Hippo.
+ *  Copyright 2008-2018 Hippo.
  *
  *  Licensed under the Apache License, Version 2.0 (the "License");
  *  you may not use this file except in compliance with the License.
@@ -15,11 +15,6 @@
  */
 package org.onehippo.forge.jcrshell.core;
 
-import org.apache.commons.io.IOUtils;
-import org.onehippo.forge.jcrshell.core.Command.ArgumentType;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStream;
@@ -28,6 +23,11 @@ import java.util.HashSet;
 import java.util.Map;
 import java.util.Set;
 import java.util.TreeMap;
+
+import org.apache.commons.io.IOUtils;
+import org.onehippo.forge.jcrshell.core.Command.ArgumentType;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 /**
  * Helper class for commands to map command to it's class and map aliases.
@@ -190,7 +190,7 @@ public final class CommandHelper {
                 while (br.ready()) {
                     try {
                         String clazz = br.readLine().trim();
-                        if (clazz != null && clazz.length() != 0) {
+                        if (clazz != null && clazz.length() != 0 && !clazz.startsWith("#")) {
                             CommandHelper.registerCommandClass(clazz);
                         }
                     } catch (IOException e) {
