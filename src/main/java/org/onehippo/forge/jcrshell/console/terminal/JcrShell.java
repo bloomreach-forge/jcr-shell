@@ -41,7 +41,7 @@ public final class JcrShell {
     private static final String CONSOLE_COMMANDS = "/META-INF/org.onehippo.forge.jcrshell.commands.console.properties";
     private static final String EXTRA_COMMANDS = "/META-INF/org.onehippo.forge.jcrshell.commands.extra.properties";
 
-    public static final String NOT_CONNECTED_PROMPT = "jcr-shell:>";
+    public static final String NOT_CONNECTED_PROMPT = "jcr-shell:> ";
     private static final int MAX_PROMPT_LENGTH = 15;
 
     /** logger */
