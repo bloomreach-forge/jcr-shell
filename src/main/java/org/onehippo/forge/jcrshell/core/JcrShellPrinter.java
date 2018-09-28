@@ -15,23 +15,21 @@
  */
 package org.onehippo.forge.jcrshell.core;
 
+import java.util.List;
+
 import org.onehippo.forge.jcrshell.core.output.Output;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-
-import java.util.List;
-
-import static org.onehippo.forge.jcrshell.core.output.Output.out;
 
 public final class JcrShellPrinter {
 
     /** logger */
     private static final Logger log = LoggerFactory.getLogger(JcrShellPrinter.class);
 
-    private static ThreadLocal<IJcrShellRenderer> printers = new ThreadLocal<IJcrShellRenderer>();
+    private static ThreadLocal<IJcrShellRenderer> tlPrinter = new ThreadLocal<IJcrShellRenderer>();
 
     public static void setConsolePrinter(IJcrShellRenderer printer) {
-        JcrShellPrinter.printers.set(printer);
+        JcrShellPrinter.tlPrinter.set(printer);
     }
 
     /**
@@ -43,7 +41,9 @@ public final class JcrShellPrinter {
     //------------------- public print methods ----------------------------//
 
     public static void print(Output output) {
-        printers.get().print(output.head());
+        if (tlPrinter.get() != null) {
+            tlPrinter.get().print(output.head());
+        }
     }
 
     public static void println(final CharSequence s) {
@@ -68,6 +68,8 @@ public final class JcrShellPrinter {
 
     //------------------- table print helpers ----------------------------//
     public static void printTableWithHeader(List<String[]> rows) {
-        printers.get().printTableWithHeader(rows);
+        if (tlPrinter.get() != null) {
+            tlPrinter.get().printTableWithHeader(rows);
+        }
     }
 }

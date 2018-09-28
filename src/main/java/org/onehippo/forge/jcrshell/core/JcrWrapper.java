@@ -92,6 +92,10 @@ public final class JcrWrapper {
     }
 
     public static boolean isConnected() {
+        if (getShellSession() == null) {
+            return false;
+        }
+
         try {
             if (getShellSession().session != null && getShellSession().session.isLive()) {
                 return true;
@@ -104,44 +108,65 @@ public final class JcrWrapper {
     }
 
     public static void setConnected(final boolean connected) {
-        JcrWrapper.getShellSession().connected = connected;
+        if (JcrWrapper.getShellSession() != null) {
+            JcrWrapper.getShellSession().connected = connected;
+        }
     }
 
     public static char[] getPassword() {
-        return getShellSession().password.clone();
+        if (JcrWrapper.getShellSession() != null) {
+            return getShellSession().password.clone();
+        }
+        return null;
     }
 
     public static void setPassword(final String password) {
-        JcrWrapper.getShellSession().password = password.toCharArray();
+        if (JcrWrapper.getShellSession() != null) {
+            JcrWrapper.getShellSession().password = password.toCharArray();
+        }
     }
 
     public static String getServer() {
-        return getShellSession().server;
+        if (JcrWrapper.getShellSession() != null) {
+            return getShellSession().server;
+        }
+        return null;
     }
 
     public static void setServer(final String server) {
-        JcrWrapper.getShellSession().server = server;
+        if (JcrWrapper.getShellSession() != null) {
+            JcrWrapper.getShellSession().server = server;
+        }
     }
 
     public static String getUsername() {
-        return getShellSession().username;
+        if (JcrWrapper.getShellSession() != null) {
+            return getShellSession().username;
+        }
+        return null;
     }
 
     public static void setUsername(final String username) {
-        JcrWrapper.getShellSession().username = username;
+        if (JcrWrapper.getShellSession() != null) {
+            JcrWrapper.getShellSession().username = username;
+        }
     }
 
     public static void clearCaches() {
-        synchronized (getShellSession().mutex) {
-            getShellSession().propertyNameCache.clear();
-            getShellSession().nodeNameCache.clear();
+        if (JcrWrapper.getShellSession() != null) {
+            synchronized (getShellSession().mutex) {
+                getShellSession().propertyNameCache.clear();
+                getShellSession().nodeNameCache.clear();
+            }
         }
     }
 
     public static void removeFromCache(final String nodePath) {
-        synchronized (getShellSession().mutex) {
-            getShellSession().propertyNameCache.remove(nodePath);
-            getShellSession().nodeNameCache.remove(nodePath);
+        if (JcrWrapper.getShellSession() != null) {
+            synchronized (getShellSession().mutex) {
+                getShellSession().propertyNameCache.remove(nodePath);
+                getShellSession().nodeNameCache.remove(nodePath);
+            }
         }
     }
 
@@ -196,6 +221,10 @@ public final class JcrWrapper {
     }
 
     public static String getStatus() throws RepositoryException {
+        if (JcrWrapper.getShellSession() == null) {
+            return null;
+        }
+
         if (!isConnected()) {
             return getShellSession().username + "@" + getShellSession().server + " not connected.";
         } else {

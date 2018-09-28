@@ -41,16 +41,13 @@ public final class JcrShell {
     private static final String CONSOLE_COMMANDS = "/META-INF/org.onehippo.forge.jcrshell.commands.console.properties";
     private static final String EXTRA_COMMANDS = "/META-INF/org.onehippo.forge.jcrshell.commands.extra.properties";
 
-    public static final String NOT_CONNECTED_PROMPT = "jcr-shell:> ";
+    private static final String NOT_CONNECTED_PROMPT = "jcr-shell:> ";
     private static final int MAX_PROMPT_LENGTH = 15;
 
     /** logger */
     private static final Logger log = LoggerFactory.getLogger(JcrShell.class);
 
-    /**
-     * Hide constructor
-     */
-    private JcrShell() {
+    public JcrShell() {
     }
 
     /**
@@ -58,7 +55,7 @@ public final class JcrShell {
      * @param args ignored
      * @throws IOException io failure when starting shell
      */
-    public static void main(final String[] args) throws IOException {
+    public void start(final String[] args) throws IOException {
         final Terminal term = setupTerminal();
         registerCompleters();
         registerCommands();
@@ -94,7 +91,7 @@ public final class JcrShell {
         }
     }
 
-    public static Terminal setupTerminal() {
+    private Terminal setupTerminal() {
         Terminal term = new Terminal();
         term.setCommandLinePrompt(NOT_CONNECTED_PROMPT);
         StringBuilder version = new StringBuilder();
@@ -105,27 +102,27 @@ public final class JcrShell {
         return term;
     }
 
-    public static void registerCompleters() {
+    private void registerCompleters() {
         CompleterFactory.registerCompleter(Command.ArgumentType.Flags.FILE, FileNameCompleter.class);
         CompleterFactory.registerCompleter(Command.ArgumentType.Flags.DIRECTORY, DirNameCompleter.class);
     }
 
-    public static void registerCommands() {
+    private void registerCommands() {
         CommandHelper.loadCommandsFromResource(DEFAULT_COMMANDS);
         CommandHelper.loadCommandsFromResource(CONSOLE_COMMANDS);
         CommandHelper.loadCommandsFromResource(EXTRA_COMMANDS);
     }
 
-    public static void registerShutdownHook() {
+    private void registerShutdownHook() {
         Terminal.ShutdownHook sh = Terminal.getShutdownHook();
         Runtime.getRuntime().addShutdownHook(sh);
     }
 
-    public static void runShell(Terminal term) {
+    private void runShell(Terminal term) {
         term.start();
     }
 
-    public static void runScript(final String[] args) {
+    private void runScript(final String[] args) {
         try {
             Terminal.run(new FileInputStream(new File(args[0])), System.out);
         } catch (FileNotFoundException e) {

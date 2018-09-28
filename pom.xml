@@ -17,15 +17,22 @@
 <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
   <modelVersion>4.0.0</modelVersion>
 
+  <parent>
+    <groupId>org.springframework.boot</groupId>
+    <artifactId>spring-boot-starter-parent</artifactId>
+    <version>2.0.4.RELEASE</version>
+    <relativePath /> <!-- lookup parent from repository -->
+  </parent>
+
   <name>Hippo JCR Shell</name>
-  <description>Hippo ECM JCR Shell</description>
+  <description>Hippo JCR Shell</description>
 
   <groupId>org.onehippo.forge.jcrshell</groupId>
   <artifactId>jcrshell</artifactId>
   <version>2.0.0-SNAPSHOT</version>
 
   <!--  general info -->
-  <url>http://forge.onehippo.org/gf/project/jcr-shell/</url>
+  <url>https://github.com/onehippo-forge/jcr-shell</url>
   <organization>
     <name>Hippo</name>
     <url>http://www.onehippo.org/</url>
@@ -132,6 +139,11 @@
   <dependencies>
 
     <dependency>
+      <groupId>org.springframework.boot</groupId>
+      <artifactId>spring-boot-starter</artifactId>
+    </dependency>
+
+    <dependency>
       <groupId>javax.jcr</groupId>
       <artifactId>jcr</artifactId>
       <version>${javax.jcr.version}</version>
@@ -222,26 +234,36 @@
       <scope>test</scope>
     </dependency>
 
+    <dependency>
+      <groupId>org.springframework.boot</groupId>
+      <artifactId>spring-boot-starter-test</artifactId>
+      <scope>test</scope>
+    </dependency>
+
   </dependencies>
 
   <build>
+
     <plugins>
+
       <plugin>
-        <groupId>org.codehaus.mojo</groupId>
-        <artifactId>exec-maven-plugin</artifactId>
-        <version>1.6.0</version>
+        <groupId>org.springframework.boot</groupId>
+        <artifactId>spring-boot-maven-plugin</artifactId>
+        <configuration>
+          <layout>ZIP</layout>
+          <executable>true</executable>
+        </configuration>
         <executions>
           <execution>
             <goals>
-              <goal>java</goal>
+              <goal>repackage</goal>
             </goals>
           </execution>
         </executions>
-        <configuration>
-          <mainClass>org.onehippo.forge.jcrshell.console.terminal.JcrShell</mainClass>
-        </configuration>
       </plugin>
+
     </plugins>
+
   </build>
 
 </project>
