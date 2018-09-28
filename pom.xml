@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!--
-  Copyright 2009 Hippo
+  Copyright 2009-2018 Hippo
 
   Licensed under the Apache License, Version 2.0 (the  "License");
   you may not use this file except in compliance with the License.
@@ -17,54 +17,76 @@
 <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
   <modelVersion>4.0.0</modelVersion>
 
+  <parent>
+    <groupId>org.springframework.boot</groupId>
+    <artifactId>spring-boot-starter-parent</artifactId>
+    <version>2.0.4.RELEASE</version>
+    <relativePath /> <!-- lookup parent from repository -->
+  </parent>
+
   <name>Hippo JCR Shell</name>
-  <description>Hippo ECM JCR Shell</description>
+  <description>Hippo JCR Shell</description>
 
   <groupId>org.onehippo.forge.jcrshell</groupId>
   <artifactId>jcrshell</artifactId>
   <version>2.0.0-SNAPSHOT</version>
-  <packaging>pom</packaging>
 
   <!--  general info -->
-  <url>http://forge.onehippo.org/gf/project/jcr-shell/</url>
+  <url>https://github.com/onehippo-forge/jcr-shell</url>
   <organization>
     <name>Hippo</name>
     <url>http://www.onehippo.org/</url>
   </organization>
 
   <scm>
-    <connection>scm:svn:https://forge.onehippo.org/svn/jcr-shell/trunk</connection>
-    <developerConnection>scm:svn:https://forge.onehippo.org/svn/jcr-shell/trunk</developerConnection>
-    <url>https://forge.onehippo.org/svn/jcr-shell/trunk</url>
+    <connection>scm:git:git@github.com:onehippo-forge/jcr-shell.git</connection>
+    <developerConnection>scm:git:git@github.com:onehippo-forge/jcr-shell.git</developerConnection>
+    <url>https://github.com/onehippo-forge/jcr-shell.git</url>
+    <tag>HEAD</tag>
   </scm>
 
+  <distributionManagement>
+    <repository>
+      <name>Hippo Maven 2 Forge Repository</name>
+      <id>hippo-maven2-forge</id>
+      <url>https://maven.onehippo.com/content/repositories/forge-releases/</url>
+      <uniqueVersion>false</uniqueVersion>
+    </repository>
+  </distributionManagement>
+
   <issueManagement>
-    <url>http://forge.onehippo.org/gf/project/jcr-shell/tracker/</url>
+    <url>https://issues.onehippo.com/projects/HIPFORGE</url>
   </issueManagement>
 
   <ciManagement>
-    <system>Hudson</system>
-    <url>http://hudson.onehippo.org/job/Hippo%20Forge%20JCR%20Shell%20Trunk/</url>
+    <system>Travic CI</system>
+    <url>https://travis-ci.org/onehippo-forge/content-export-import</url>
   </ciManagement>
 
-  <!-- versions -->
   <properties>
-    <hippo.repository.version>2.18.01</hippo.repository.version>
-    <javax.jcr.version>2.0</javax.jcr.version>
-    <jline.version>2.5</jline.version>
-    <org.slf4j.version>1.6.1</org.slf4j.version>
-    <org.apache.geronimo.specs.jta.version>1.1.1</org.apache.geronimo.specs.jta.version>
+
     <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-    <maven.build.timestamp.format>yyyy-MM-dd HH:mm</maven.build.timestamp.format>
-    <build.timestamp>${maven.build.timestamp}</build.timestamp>
-    <jersey.version>1.0.2</jersey.version>
+    <project.build.javaVersion>1.8</project.build.javaVersion>
+
+    <javax.jcr.version>2.0</javax.jcr.version>
+    <jackrabbit.version>2.17.5</jackrabbit.version>
+    <jline.version>2.5</jline.version>
+
   </properties>
+
+  <licenses>
+    <license>
+      <name>The Apache Software License, Version 2.0</name>
+      <url>http://www.apache.org/licenses/LICENSE-2.0.txt</url>
+      <distribution>repo</distribution>
+    </license>
+  </licenses>
 
   <developers>
     <developer>
       <name>Bart van der Schans</name>
       <id>bvdschans</id>
-      <email>schans@onehippo.com</email>
+      <email>bart DOT vanderschans AT bloomreach DOT com</email>
       <organization>Hippo</organization>
       <roles>
         <role>Project Lead</role>
@@ -75,27 +97,34 @@
     <developer>
       <name>Frank van Lankvelt</name>
       <id>fvlankvelt</id>
-      <email>f.vanlankvelt@onehippo.com</email>
-      <organization>Hippo</organization>
       <roles>
         <role>Java Developer</role>
       </roles>
       <timezone>+1</timezone>
     </developer>
+    <developer>
+      <name>Woonsan Ko</name>
+      <id>wko</id>
+      <email>woonsan DOT ko AT bloomreach DOT com</email>
+      <organization>BloomReach</organization>
+      <roles>
+        <role>Java Developer</role>
+      </roles>
+      <timezone>-5</timezone>
+    </developer>
   </developers>
-
-  <prerequisites>
-    <maven>[2.1.0,)</maven>
-  </prerequisites>
 
   <repositories>
     <repository>
-      <id>hippoecm</id>
-      <name>Hippo ECM maven 2 repository.</name>
+      <id>hippo</id>
+      <name>Hippo Maven 2 Repository</name>
       <url>http://maven.onehippo.com/maven2/</url>
-      <snapshots>
-        <enabled>true</enabled>
-      </snapshots>
+    </repository>
+    <repository>
+      <id>hippo-maven2-forge</id>
+      <name>Hippo Maven 2 Forge Repository</name>
+      <url>http://maven.onehippo.com/maven2-forge/</url>
+      <snapshots />
     </repository>
     <repository>
       <id>jline</id>
@@ -104,183 +133,98 @@
     </repository>
   </repositories>
 
-  <dependencyManagement>
-    <dependencies>
-      <dependency>
-        <groupId>javax.jcr</groupId>
-        <artifactId>jcr</artifactId>
-        <version>${javax.jcr.version}</version>
-      </dependency>
+  <dependencies>
 
-      <dependency>
-        <groupId>javax.servlet</groupId>
-        <artifactId>servlet-api</artifactId>
-        <version>2.5</version>
-      </dependency>
-      <dependency>
-        <groupId>org.onehippo.cms7</groupId>
-        <artifactId>hippo-repository-api</artifactId>
-        <version>${hippo.repository.version}</version>
-        <exclusions>
-          <exclusion>
-            <groupId>javax.jdo</groupId>
-            <artifactId>jdo2-api</artifactId>
-          </exclusion>
-          <exclusion>
-            <groupId>jpox</groupId>
-            <artifactId>jpox-core</artifactId>
-          </exclusion>
-        </exclusions>
-      </dependency>
-      <dependency>
-        <groupId>org.onehippo.cms7</groupId>
-        <artifactId>hippo-repository-connector</artifactId>
-        <version>${hippo.repository.version}</version>
-        <exclusions>
-          <exclusion>
-            <groupId>org.apache.jackrabbit</groupId>
-            <artifactId>jackrabbit-core</artifactId>
-          </exclusion>
-          <exclusion>
-            <groupId>javax.jdo</groupId>
-            <artifactId>jdo2-api</artifactId>
-          </exclusion>
-          <exclusion>
-            <groupId>jpox</groupId>
-            <artifactId>jpox-core</artifactId>
-          </exclusion>
-          <exclusion>
-            <groupId>xerces</groupId>
-            <artifactId>xercesImpl</artifactId>
-          </exclusion>
-        </exclusions>
-      </dependency>
-      <dependency>
-        <groupId>org.sonatype.jline</groupId>
-        <artifactId>jline</artifactId>
-        <version>${jline.version}</version>
-        <exclusions>
-          <exclusion>
-            <groupId>junit</groupId>
-            <artifactId>junit</artifactId>
-          </exclusion>
-        </exclusions>
-      </dependency>
-      <dependency>
-        <groupId>commons-io</groupId>
-        <artifactId>commons-io</artifactId>
-        <version>2.0</version>
-      </dependency>
-      <dependency>
-        <groupId>org.fusesource.jansi</groupId>
-        <artifactId>jansi</artifactId>
-        <version>1.4</version>
-      </dependency>
-      <dependency>
-        <groupId>org.slf4j</groupId>
-        <artifactId>slf4j-api</artifactId>
-        <version>${org.slf4j.version}</version>
-      </dependency>
-      <dependency>
-        <groupId>org.slf4j</groupId>
-        <artifactId>slf4j-log4j12</artifactId>
-        <version>${org.slf4j.version}</version>
-      </dependency>
-      <dependency>
-        <groupId>org.slf4j</groupId>
-        <artifactId>jcl-over-slf4j</artifactId>
-        <version>${org.slf4j.version}</version>
-      </dependency>
-      <dependency>
-        <groupId>org.apache.geronimo.specs</groupId>
-        <artifactId>geronimo-jta_1.1_spec</artifactId>
-        <version>${org.apache.geronimo.specs.jta.version}</version>
-        <exclusions>
-          <exclusion>
-            <groupId>geronimo-spec</groupId>
-            <artifactId>geronimo-spec-jta</artifactId>
-          </exclusion>
-        </exclusions>
-      </dependency>
-      <dependency>
-        <groupId>junit</groupId>
-        <artifactId>junit</artifactId>
-        <version>4.8.2</version>
-      </dependency>
+    <dependency>
+      <groupId>org.springframework.boot</groupId>
+      <artifactId>spring-boot-starter</artifactId>
+    </dependency>
 
-      <dependency>
-        <groupId>org.onehippo.cms7</groupId>
-        <artifactId>hippo-package-app-dependencies</artifactId>
-        <type>pom</type>
-        <version>2.18.02</version>
-      </dependency>
+    <dependency>
+      <groupId>javax.jcr</groupId>
+      <artifactId>jcr</artifactId>
+      <version>${javax.jcr.version}</version>
+    </dependency>
 
-      <dependency>
-        <groupId>org.onehippo.cms7</groupId>
-        <artifactId>hippo-repository-resources</artifactId>
-        <type>war</type>
-        <version>2.18.01</version>
-      </dependency>
+    <dependency>
+      <groupId>org.apache.jackrabbit</groupId>
+      <artifactId>jackrabbit-core</artifactId>
+      <version>${jackrabbit.version}</version>
+    </dependency>
 
-      <dependency>
-        <groupId>org.apache.cxf</groupId>
-        <artifactId>cxf-rt-frontend-jaxrs</artifactId>
-        <version>2.3.1</version>
-        <exclusions>
-          <exclusion>
-            <groupId>commons-logging</groupId>
-            <artifactId>commons-logging</artifactId>
-          </exclusion>
-        </exclusions>
-      </dependency>
+    <dependency>
+      <groupId>org.apache.jackrabbit</groupId>
+      <artifactId>jackrabbit-jcr-commons</artifactId>
+      <version>${jackrabbit.version}</version>
+    </dependency>
 
-      <dependency>
-        <groupId>org.codehaus.jackson</groupId>
-        <artifactId>jackson-core-asl</artifactId>
-        <version>1.3.2</version>
-      </dependency>
-      <dependency>
-        <groupId>org.codehaus.jackson</groupId>
-        <artifactId>jackson-mapper-asl</artifactId>
-        <version>1.3.2</version>
-      </dependency>
-      <dependency>
-        <groupId>org.codehaus.jackson</groupId>
-        <artifactId>jackson-xc</artifactId>
-        <version>1.3.2</version>
-      </dependency>
-      <dependency>
-        <groupId>org.codehaus.jackson</groupId>
-        <artifactId>jackson-jaxrs</artifactId>
-        <version>1.3.2</version>
-      </dependency>
-      <dependency>
-        <groupId>javax.ws.rs</groupId>
-        <artifactId>jsr311-api</artifactId>
-        <version>1.1.1</version>
-      </dependency>
+    <dependency>
+      <groupId>org.apache.jackrabbit</groupId>
+      <artifactId>jackrabbit-jcr2dav</artifactId>
+      <version>${jackrabbit.version}</version>
+    </dependency>
 
-      <dependency>
-        <groupId>org.apache.jackrabbit</groupId>
-        <artifactId>jackrabbit-core</artifactId>
-        <version>2.1.2</version>
-      </dependency>
-      <dependency>
-        <groupId>org.apache.jackrabbit</groupId>
-        <artifactId>jackrabbit-jcr-commons</artifactId>
-        <version>2.1.2</version>
-      </dependency>
-      <dependency>
-        <groupId>org.apache.jackrabbit</groupId>
-        <artifactId>jackrabbit-jcr2dav</artifactId>
-        <version>2.1.2</version>
-      </dependency>
-    </dependencies>
-  </dependencyManagement>
+    <dependency>
+      <groupId>org.sonatype.jline</groupId>
+      <artifactId>jline</artifactId>
+      <version>${jline.version}</version>
+      <exclusions>
+        <exclusion>
+          <groupId>junit</groupId>
+          <artifactId>junit</artifactId>
+        </exclusion>
+      </exclusions>
+    </dependency>
 
-  <modules>
-    <module>core</module>
-    <module>console</module>
-  </modules>
+    <dependency>
+      <groupId>commons-io</groupId>
+      <artifactId>commons-io</artifactId>
+      <version>2.6</version>
+    </dependency>
+
+    <dependency>
+      <groupId>org.fusesource.jansi</groupId>
+      <artifactId>jansi</artifactId>
+      <version>1.17.1</version>
+    </dependency>
+
+    <dependency>
+      <groupId>junit</groupId>
+      <artifactId>junit</artifactId>
+      <version>4.8.2</version>
+      <scope>test</scope>
+    </dependency>
+
+    <dependency>
+      <groupId>org.springframework.boot</groupId>
+      <artifactId>spring-boot-starter-test</artifactId>
+      <scope>test</scope>
+    </dependency>
+
+  </dependencies>
+
+  <build>
+
+    <plugins>
+
+      <plugin>
+        <groupId>org.springframework.boot</groupId>
+        <artifactId>spring-boot-maven-plugin</artifactId>
+        <configuration>
+          <layout>ZIP</layout>
+          <executable>true</executable>
+        </configuration>
+        <executions>
+          <execution>
+            <goals>
+              <goal>repackage</goal>
+            </goals>
+          </execution>
+        </executions>
+      </plugin>
+
+    </plugins>
+
+  </build>
 
 </project>
