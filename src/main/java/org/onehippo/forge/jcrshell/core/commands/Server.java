@@ -19,13 +19,13 @@ import org.onehippo.forge.jcrshell.core.JcrShellPrinter;
 import org.onehippo.forge.jcrshell.core.JcrWrapper;
 
 /**
- * Set the server rmi url.
+ * Set the server http url.
  */
 public class Server extends AbstractCommand {
 
     public Server() {
-        super("server", new String[] {}, "server [<rmi_url>|<http(s)_url>]",
-                "show current server or set server JCR/RMI url or JCR/WebDAV HTTP url to connect to");
+        super("server", new String[] {}, "server [<http(s)_url>]",
+                "show current server or set server JCR/WebDAV HTTP url to connect to");
     }
 
     /**

@@ -32,7 +32,7 @@ public class JcrShellSession {
     Object mutex = new Object();
     EventListener cacheListener;
 
-    String server = "rmi://localhost:1099/hipporepository";
+    String server = "http://localhost:8080/";
 
     String username = "admin";
 
