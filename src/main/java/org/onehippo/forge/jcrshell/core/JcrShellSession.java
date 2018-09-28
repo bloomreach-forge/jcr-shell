@@ -32,11 +32,11 @@ public class JcrShellSession {
     Object mutex = new Object();
     EventListener cacheListener;
 
-    String server = "http://localhost:8080/";
+    String server = "http://localhost:8080/server";
 
     String username = "admin";
 
-    char[] password = "admin".toCharArray();
+    char[] password = "secret".toCharArray();
 
     Session session;
 

@@ -73,21 +73,21 @@ public final class JcrWrapper {
 
     private static final Logger log = LoggerFactory.getLogger(JcrWrapper.class);
 
-    private static ThreadLocal<JcrShellSession> sessions = new ThreadLocal<JcrShellSession>();
+    private static ThreadLocal<JcrShellSession> tlSession = new ThreadLocal<JcrShellSession>();
 
     public static void setShellSession(JcrShellSession session) {
-        sessions.set(session);
+        tlSession.set(session);
     }
 
     public static JcrShellSession getShellSession() {
-        return sessions.get();
+        return tlSession.get();
     }
 
     private JcrWrapper() {
         super();
     }
 
-    /* private */ static void setCurrentNode(final Node node) {
+    static void setCurrentNode(final Node node) {
         getShellSession().setCurrentNode(node);
     }
 
@@ -218,13 +218,15 @@ public final class JcrWrapper {
             JcrShellPrinter.println("");
             TextOutput text = Output.out();
 
-            if (repositoryAddress.startsWith("http:") || repositoryAddress.startsWith("https:")) {
-                Jcr2davRepositoryFactory factory = new Jcr2davRepositoryFactory();
-                Map<String, String> params = new HashMap<String, String>();
-                params.put(JcrUtils.REPOSITORY_URI, repositoryAddress);
-                Repository repository = factory.getRepository(params);
-                getShellSession().session = repository.login(new SimpleCredentials(getUsername(), getPassword()));
+            if (!repositoryAddress.startsWith("http:") && !repositoryAddress.startsWith("https:")) {
+                throw new RepositoryException("Unrecognizable repository address: " + repositoryAddress);
             }
+
+            Jcr2davRepositoryFactory factory = new Jcr2davRepositoryFactory();
+            Map<String, String> params = new HashMap<String, String>();
+            params.put(JcrUtils.REPOSITORY_URI, repositoryAddress);
+            Repository repository = factory.getRepository(params);
+            getShellSession().session = repository.login(new SimpleCredentials(getUsername(), getPassword()));
 
             setConnected(true);
             setCurrentNode(getShellSession().session.getRootNode());

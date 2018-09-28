@@ -80,10 +80,10 @@ public final class JcrShell {
                             String dots = "...";
                             path = dots + path.substring(path.length() - MAX_PROMPT_LENGTH + dots.length());
                         }
-                        term.setCommandLinePrompt(JcrWrapper.getUsername() + ":" + path + ">");
+                        term.setCommandLinePrompt(JcrWrapper.getUsername() + ":" + path + "> ");
                     } catch (RepositoryException e) {
                         log.info("Unable to determine path while setting prompt", e);
-                        term.setCommandLinePrompt(JcrWrapper.getUsername() + ":[unknown]>");
+                        term.setCommandLinePrompt(JcrWrapper.getUsername() + ":[unknown]> ");
                     }
                 }
             });
