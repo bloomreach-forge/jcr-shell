@@ -288,7 +288,7 @@ public final class JcrWrapper {
                 }
             };
             obMgr.addEventListener(getShellSession().cacheListener, Event.NODE_ADDED | Event.NODE_REMOVED | Event.PROPERTY_ADDED
-                    | Event.PROPERTY_CHANGED | Event.PROPERTY_REMOVED, "/", true, null, null, true);
+                    | Event.PROPERTY_CHANGED | Event.PROPERTY_REMOVED, "/", true, null, null, false);
             clearCaches();
             return;
         } catch (LoginException e) {
