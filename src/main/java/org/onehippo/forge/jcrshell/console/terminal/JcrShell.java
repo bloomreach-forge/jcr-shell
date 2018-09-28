@@ -35,7 +35,7 @@ import org.slf4j.LoggerFactory;
 /**
  * Main wrapper to start the shell.
  */
-public final class JcrShell {
+public class JcrShell {
 
     private static final String DEFAULT_COMMANDS = "/META-INF/org.onehippo.forge.jcrshell.commands.core.properties";
     private static final String CONSOLE_COMMANDS = "/META-INF/org.onehippo.forge.jcrshell.commands.console.properties";

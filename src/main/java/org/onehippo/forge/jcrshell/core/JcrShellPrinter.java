@@ -41,9 +41,12 @@ public final class JcrShellPrinter {
     //------------------- public print methods ----------------------------//
 
     public static void print(Output output) {
-        if (tlPrinter.get() != null) {
-            tlPrinter.get().print(output.head());
+        if (tlPrinter.get() == null) {
+            log.warn("No printer attached to the current shell.");
+            return;
         }
+
+        tlPrinter.get().print(output.head());
     }
 
     public static void println(final CharSequence s) {
@@ -68,8 +71,11 @@ public final class JcrShellPrinter {
 
     //------------------- table print helpers ----------------------------//
     public static void printTableWithHeader(List<String[]> rows) {
-        if (tlPrinter.get() != null) {
-            tlPrinter.get().printTableWithHeader(rows);
+        if (tlPrinter.get() == null) {
+            log.warn("No printer attached to the current shell.");
+            return;
         }
+
+        tlPrinter.get().printTableWithHeader(rows);
     }
 }

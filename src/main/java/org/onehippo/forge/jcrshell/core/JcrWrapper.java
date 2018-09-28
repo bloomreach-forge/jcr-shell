@@ -108,69 +108,88 @@ public final class JcrWrapper {
     }
 
     public static void setConnected(final boolean connected) {
-        if (JcrWrapper.getShellSession() != null) {
-            JcrWrapper.getShellSession().connected = connected;
+        if (connected && JcrWrapper.getShellSession() == null) {
+            throw new IllegalStateException("No session attached in the current shell.");
         }
+
+        JcrWrapper.getShellSession().connected = connected;
     }
 
     public static char[] getPassword() {
-        if (JcrWrapper.getShellSession() != null) {
-            return getShellSession().password.clone();
+        if (JcrWrapper.getShellSession() == null) {
+            throw new IllegalStateException("No session attached in the current shell.");
         }
-        return null;
+
+        return getShellSession().password.clone();
     }
 
     public static void setPassword(final String password) {
-        if (JcrWrapper.getShellSession() != null) {
-            JcrWrapper.getShellSession().password = password.toCharArray();
+        if (JcrWrapper.getShellSession() == null) {
+            throw new IllegalStateException("No session attached in the current shell.");
         }
+
+        JcrWrapper.getShellSession().password = password.toCharArray();
     }
 
     public static String getServer() {
-        if (JcrWrapper.getShellSession() != null) {
-            return getShellSession().server;
+        if (JcrWrapper.getShellSession() == null) {
+            throw new IllegalStateException("No session attached in the current shell.");
         }
-        return null;
+
+        return getShellSession().server;
     }
 
     public static void setServer(final String server) {
-        if (JcrWrapper.getShellSession() != null) {
-            JcrWrapper.getShellSession().server = server;
+        if (JcrWrapper.getShellSession() == null) {
+            throw new IllegalStateException("No session attached in the current shell.");
         }
+
+        JcrWrapper.getShellSession().server = server;
     }
 
     public static String getUsername() {
-        if (JcrWrapper.getShellSession() != null) {
-            return getShellSession().username;
+        if (JcrWrapper.getShellSession() == null) {
+            throw new IllegalStateException("No session attached in the current shell.");
         }
-        return null;
+
+        return getShellSession().username;
     }
 
     public static void setUsername(final String username) {
-        if (JcrWrapper.getShellSession() != null) {
-            JcrWrapper.getShellSession().username = username;
+        if (JcrWrapper.getShellSession() == null) {
+            throw new IllegalStateException("No session attached in the current shell.");
         }
+
+        JcrWrapper.getShellSession().username = username;
     }
 
     public static void clearCaches() {
-        if (JcrWrapper.getShellSession() != null) {
-            synchronized (getShellSession().mutex) {
-                getShellSession().propertyNameCache.clear();
-                getShellSession().nodeNameCache.clear();
-            }
+        if (JcrWrapper.getShellSession() == null) {
+            return;
+        }
+
+        synchronized (getShellSession().mutex) {
+            getShellSession().propertyNameCache.clear();
+            getShellSession().nodeNameCache.clear();
         }
     }
 
     public static void removeFromCache(final String nodePath) {
-        if (JcrWrapper.getShellSession() != null) {
-            synchronized (getShellSession().mutex) {
-                getShellSession().propertyNameCache.remove(nodePath);
-                getShellSession().nodeNameCache.remove(nodePath);
-            }
+        if (JcrWrapper.getShellSession() == null) {
+            return;
+        }
+
+        synchronized (getShellSession().mutex) {
+            getShellSession().propertyNameCache.remove(nodePath);
+            getShellSession().nodeNameCache.remove(nodePath);
         }
     }
 
     public static void updateCaches(EventIterator events) {
+        if (JcrWrapper.getShellSession() == null) {
+            return;
+        }
+
         Set<String> paths = new HashSet<String>();
         while (events.hasNext()) {
             Event event = events.nextEvent();
@@ -222,7 +241,7 @@ public final class JcrWrapper {
 
     public static String getStatus() throws RepositoryException {
         if (JcrWrapper.getShellSession() == null) {
-            return null;
+            throw new IllegalStateException("No session attached in the current shell.");
         }
 
         if (!isConnected()) {
