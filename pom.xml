@@ -46,6 +46,7 @@
     <plugin.source.version>2.2.1</plugin.source.version>
     <plugin.surefire.version>2.17</plugin.surefire.version>
     <plugin.surefire-report.version>2.17</plugin.surefire-report.version>
+    <plugin.project-info-reports.version>2.7</plugin.project-info-reports.version>
 
     <extension.wagon-svn.version>1.9</extension.wagon-svn.version>
 
