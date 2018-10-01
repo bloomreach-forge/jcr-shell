@@ -30,13 +30,34 @@
   <groupId>org.onehippo.forge.jcrshell</groupId>
   <artifactId>jcrshell</artifactId>
   <version>2.0.0-SNAPSHOT</version>
-
-  <!--  general info -->
   <url>https://github.com/onehippo-forge/jcr-shell</url>
-  <organization>
-    <name>Hippo</name>
-    <url>http://www.onehippo.org/</url>
-  </organization>
+
+  <properties>
+
+    <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+    <project.build.javaVersion>1.8</project.build.javaVersion>
+
+    <javax.jcr.version>2.0</javax.jcr.version>
+    <jackrabbit.version>2.17.5</jackrabbit.version>
+    <jline.version>2.5</jline.version>
+
+    <plugin.javadoc.version>2.9.1</plugin.javadoc.version>
+    <plugin.site.version>3.6</plugin.site.version>
+    <plugin.source.version>2.2.1</plugin.source.version>
+    <plugin.surefire.version>2.17</plugin.surefire.version>
+    <plugin.surefire-report.version>2.17</plugin.surefire-report.version>
+
+    <extension.wagon-svn.version>1.9</extension.wagon-svn.version>
+
+  </properties>
+
+  <licenses>
+    <license>
+      <name>The Apache Software License, Version 2.0</name>
+      <url>http://www.apache.org/licenses/LICENSE-2.0.txt</url>
+      <distribution>repo</distribution>
+    </license>
+  </licenses>
 
   <scm>
     <connection>scm:git:git@github.com:onehippo-forge/jcr-shell.git</connection>
@@ -60,27 +81,8 @@
 
   <ciManagement>
     <system>Travic CI</system>
-    <url>https://travis-ci.org/onehippo-forge/content-export-import</url>
+    <url>https://travis-ci.org/onehippo-forge/jcr-shell</url>
   </ciManagement>
-
-  <properties>
-
-    <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-    <project.build.javaVersion>1.8</project.build.javaVersion>
-
-    <javax.jcr.version>2.0</javax.jcr.version>
-    <jackrabbit.version>2.17.5</jackrabbit.version>
-    <jline.version>2.5</jline.version>
-
-  </properties>
-
-  <licenses>
-    <license>
-      <name>The Apache Software License, Version 2.0</name>
-      <url>http://www.apache.org/licenses/LICENSE-2.0.txt</url>
-      <distribution>repo</distribution>
-    </license>
-  </licenses>
 
   <developers>
     <developer>
@@ -191,7 +193,6 @@
     <dependency>
       <groupId>junit</groupId>
       <artifactId>junit</artifactId>
-      <version>4.8.2</version>
       <scope>test</scope>
     </dependency>
 
@@ -222,9 +223,46 @@
           </execution>
         </executions>
       </plugin>
+      <plugin>
+        <groupId>org.apache.maven.plugins</groupId>
+        <artifactId>maven-project-info-reports-plugin</artifactId>
+        <version>${plugin.project-info-reports.version}</version>
+      </plugin>
+      <plugin>
+        <groupId>org.apache.maven.plugins</groupId>
+        <artifactId>maven-surefire-report-plugin</artifactId>
+        <version>${plugin.surefire-report.version}</version>
+      </plugin>
 
     </plugins>
 
+    <extensions>
+      <extension>
+        <groupId>org.jvnet.wagon-svn</groupId>
+        <artifactId>wagon-svn</artifactId>
+        <version>${extension.wagon-svn.version}</version>
+      </extension>
+    </extensions>
+
   </build>
+
+  <profiles>
+    <!-- Only for generating/publishing GitHub Site Pages into docs/ folder from master branch. -->
+    <profile>
+      <id>github.pages</id>
+      <build>
+        <plugins>
+          <plugin>
+            <groupId>org.apache.maven.plugins</groupId>
+            <artifactId>maven-site-plugin</artifactId>
+            <version>${plugin.site.version}</version>
+            <configuration>
+              <outputDirectory>docs</outputDirectory>
+            </configuration>
+          </plugin>
+        </plugins>
+      </build>
+    </profile>
+  </profiles>
 
 </project>
