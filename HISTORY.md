@@ -29,7 +29,13 @@ to volunteer reviving the project from the attic and maintaining the software,
 after observing some people in the community had to fork and maintain copies of
 the project just because Hippo Forge sent it to the attic in 2017.
 
-Woonsan had to copy the latest trunk source into this github project at
-https://github.com/onehippo-forge/jcr-shell as the revision history was totally missed.
+Woonsan cut a release of 2.0.0 with the following:
 
-Woonsan also bumped the project version to 2.0.0-SNAPSHOT as a new baseline version.
+- Initially copied the latest trunk source to this github project at
+https://github.com/onehippo-forge/jcr-shell as the revision history was totally missed.
+- Bumped the project version to 2.0.0-SNAPSHOT as a new baseline version.
+- Merged core and console submodules into single project.
+- Replaced Maven Exec Plugin with Spring Boot Executable.
+- Removed "Repository", "CndExport" and "CndImport" commands as those do not work in Jackrabbit in general.
+
+ 
