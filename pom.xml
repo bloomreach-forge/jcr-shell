@@ -24,8 +24,8 @@
     <relativePath /> <!-- lookup parent from repository -->
   </parent>
 
-  <name>Hippo JCR Shell</name>
-  <description>Hippo JCR Shell</description>
+  <name>JCR Shell</name>
+  <description>JCR Shell</description>
 
   <groupId>org.onehippo.forge.jcrshell</groupId>
   <artifactId>jcrshell</artifactId>
@@ -224,15 +224,11 @@
           </execution>
         </executions>
       </plugin>
+
       <plugin>
         <groupId>org.apache.maven.plugins</groupId>
         <artifactId>maven-project-info-reports-plugin</artifactId>
         <version>${plugin.project-info-reports.version}</version>
-      </plugin>
-      <plugin>
-        <groupId>org.apache.maven.plugins</groupId>
-        <artifactId>maven-surefire-report-plugin</artifactId>
-        <version>${plugin.surefire-report.version}</version>
       </plugin>
 
     </plugins>

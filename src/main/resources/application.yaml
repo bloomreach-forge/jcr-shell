@@ -15,5 +15,5 @@
 
 logging:
     level:
-        root: 'WARN'
+        root: 'ERROR'
         org.onehippo.forge.jcrshell: 'ERROR'

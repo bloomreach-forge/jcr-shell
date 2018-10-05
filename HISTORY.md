@@ -38,4 +38,3 @@ https://github.com/onehippo-forge/jcr-shell as the revision history was totally 
 - Replaced Maven Exec Plugin with Spring Boot Executable.
 - Removed "Repository", "CndExport" and "CndImport" commands as those do not work in Jackrabbit in general.
 
- 
