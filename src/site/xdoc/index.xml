@@ -1,0 +1,237 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE document PUBLIC
+  "-//Apache Software Foundation//DTD XDOC 1.0//EN"
+  "http://maven.apache.org/dtd/xdoc_1_0.dtd">
+<!--
+    Copyright 2018 Hippo
+
+    Licensed under the Apache License, Version 2.0 (the  "License");
+    you may not use this file except in compliance with the License.
+    You may obtain a copy of the License at
+
+    http://www.apache.org/licenses/LICENSE-2.0
+
+    Unless required by applicable law or agreed to in writing, software
+    distributed under the License is distributed on an "AS IS"
+    BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+    See the License for the specific language governing permissions and
+    limitations under the License.
+-->
+<document>
+  <properties>
+    <title>JCR Shell</title>
+  </properties>
+  <body>
+    <section name="JCR Shell">
+
+      <subsection name="Introduction">
+        <p>
+          JCR Shell provides a command-line tool to get access to a remote
+          <a href="http://jackrabbit.apache.org/jcr/components/jackrabbit-web-application.html#JCR_Webdav_Server">JCR Webdav Server</a>
+          which provides JCR API access over WebDAV/HTTP(S).
+        </p>
+        <p>
+          In order to enable <a href="http://jackrabbit.apache.org/jcr/components/jackrabbit-web-application.html#JCR_Webdav_Server">JCR Webdav Server</a>
+          in Hippo CMS, please see <a href="https://onehippo-forge.github.io/hippo-jcr-over-webdav/">Hippo Repository JCR/WebDAV Support</a>
+          forge project homepage.
+        </p>
+      </subsection>
+
+      <subsection name="Download">
+        <p>
+          You can download an <i>executable</i> JAR file of JCR Shell from Hippo Forge Maven repository:
+          <a href="https://maven.onehippo.com/maven2-forge/org/onehippo/forge/jcrshell/jcrshell/">https://maven.onehippo.com/maven2-forge/org/onehippo/forge/jcrshell/jcrshell/</a>.
+          Move to the latest version directory and download <code>jcrshell-x.x.x.jar</code> from there.
+        </p>
+      </subsection>
+
+      <subsection name="Run">
+        <p>
+          You can run JCR Shell like the following:
+        </p>
+        <div class="brush: plain">
+        <source><![CDATA[
+$ java -jar jcrshell-2.0.0.jar
+
+  .   ____          _            __ _ _
+ /\\ / ___'_ __ _ _(_)_ __  __ _ \ \ \ \
+( ( )\___ | '_ | '_| | '_ \/ _` | \ \ \ \
+ \\/  ___)| |_)| | | | | || (_| |  ) ) ) )
+  '  |____| .__|_| |_|_| |_\__, | / / / /
+ =========|_|==============|___/=/_/_/_/
+ :: Spring Boot ::        (v2.0.4.RELEASE)
+
+JCR Shell 2.0.0
+
+exit or quit leaves program.
+help lists commands.
+jcr-shell:> 
+
+        ]]></source>
+        </div>
+      </subsection>
+
+      <subsection name="Available Commands">
+        <p>
+          Most of all, the following commands are necessary to connect and disconnect JCR server.
+        </p>
+        <ul>
+          <li>
+            <strong>server</strong>: set JCR server address.
+            e.g. <code>server http://localhost:8080/cms/server</code>
+          </li>
+          <li>
+            <strong>credentials</strong>: set username and password to access JCR server.
+            e.g. <code>credentials admin</code>
+          </li>
+          <li>
+            <strong>login</strong>: log in to JCR server.
+          </li>
+          <li>
+            <strong>save</strong>: save the changes.
+          </li>
+          <li>
+            <strong>reset</strong>: reset the changes.
+          </li>
+          <li>
+            <strong>logout</strong>: log out from JCR server.
+          </li>
+          <li>
+            <strong>quit</strong>: exit the JCR Shell.
+          </li>
+        </ul>
+        <p>
+          You can execute <code>help</code> to see all the available commands with descriptions.
+        </p>
+        <div class="brush: plain">
+        <source><![CDATA[
+jcr-shell:> help
+----------------------------------------------------------------------------------------------------------------
+Command             Usage                                                                           
+----------------------------------------------------------------------------------------------------------------
+aliases             aliases                                                                         
+cd                  cd [<path>|<reference property>]                                                
+cdprev              cdprev                                                                          
+cduuid              cduuid <uuid>                                                                   
+credentials         credentials <username>                                                          
+exit                exit                                                                            
+filecd              filecd <path>                                                                   
+filelist            filelist [<directory>]                                                          
+filepwd             filepwd <path>                                                                  
+findreferences      findreferences                                                                  
+finduuid            finduuid <uuid>                                                                 
+help                help [<command>]                                                                
+login               login                                                                           
+logout              logout                                                                          
+ls                  ls [<path>]                                                                     
+mixinadd            mixinadd <mixin type>                                                           
+mixinlist           mixinlist                                                                       
+mixinremove         mixinremove <mixin type>                                                        
+namespaceadd        namespaceadd <prefix> <uri>                                                     
+namespacelist       namespacelist                                                                   
+namespaceremove     namespaceremove <prefix>                                                        
+nodeadd             nodeadd <nodename> [<type>]                                                     
+nodeallowed         nodeallowed                                                                     
+nodecheckin         checkin                                                                         
+nodecheckout        checkout                                                                        
+nodecopy            nodecopy <nodename> <target parent>/[name]                                      
+nodediff            nodediff <nodeame> [<path>/]<base>                                              
+nodeexport          nodeexport <nodename> <xml file> [<skipBinaries>]                               
+nodeimport          nodeimport <xml file> [<uuidBehavior> [<referenceBehavior> [<mergeBehavior>]]]  
+nodemove            nodemove <nnodeame> [<path>/]<new nodename>                                     
+noderemove          noderemove <nodename>                                                           
+nodetree            nodetree [<levels>]                                                             
+nodetypeget         nodetypeget <name>                                                              
+nodetypelist        nodetypelist [<primary|mixin>]                                                  
+order               order <child node> (before|after|up|down|first|last) [<child node>]             
+propadd             propadd <property> [<type>]                                                     
+propallowed         propallowed                                                                     
+propdelete          propdelete <property> [<property> [..]]                                         
+propget             propget <property> [<property> [..]]                                            
+proplist            proplist [<node>]                                                               
+propload            propload <binary property> <file>                                               
+propset             propset <property> <value> [<type>]                                             
+propstore           propstore <binary property> <file>                                              
+pwd                 pwd                                                                             
+query               query <sql|xpath> <statement> [limit <count>]                                   
+refresh             refresh                                                                         
+reset               reset                                                                           
+save                save                                                                            
+server              server [<http(s)_url>]                                                          
+sessionsave         sessionsave                                                                     
+status              status                                                                          
+valueadd            valueadd <propertyname> <value> [<type>]                                        
+valueremove         valueremove <property> <value> [<type>]                                         
+versioncd           versioncd <uuid>                                                                
+versioncreate       versioncreate [<label>]                                                         
+versiondiff         versiondiff [version [<otherversion>]]                                          
+versioninfo         versioninfo [<version>]                                                         
+versionlabeladd     versionslabeladd <version> <label> [<true|false>]                               
+versionlabelremove  versionslabelremove <label>                                                     
+versionlist         versionlist                                                                     
+versionremove       versionremove <version>|<label>                                                 
+versionremoveall    versionremoveall                                                                
+versionrestore      versionrestore <version>|<label> [<true|false>]                                 
+versiontree         versiontree [<levels>]                                                          
+----------------------------------------------------------------------------------------------------------------
+Command completed in 27 msecs.
+jcr-shell:> 
+
+        ]]></source>
+        </div>
+      </subsection>
+
+      <subsection name="Example Usage - Setting a property">
+        <p>
+          In this section, let's try to change a property value and save it, as an example.
+        </p>
+        <div class="brush: plain">
+        <source><![CDATA[
+jcr-shell:> server http://localhost:8080/cms/server
+Command completed in 0 msecs.
+
+jcr-shell:> credentials admin
+password: *****
+Command completed in 1209 msecs.
+
+jcr-shell:> login
+
+done.
+Command completed in 1789 msecs.
+
+admin:/> cd /webfiles/site
+Command completed in 90 msecs.
+
+admin:/webfiles/site> proplist
+----------------------------------------------------------------------------------------------------------------
+Name                Type    Value            
+----------------------------------------------------------------------------------------------------------------
+jcr:primaryType     Name    webfiles:bundle  
+webfiles:anticache  String  1538775596692    
+----------------------------------------------------------------------------------------------------------------
+Command completed in 55 msecs.
+
+admin:/webfiles/site> propset webfiles:anticache 1538775596694
+Command completed in 0 msecs.
+
+admin:/webfiles/site> propget webfiles:anticache 
+1538775596694
+Command completed in 25 msecs.
+
+admin:/webfiles/site> save
+Node saved.
+Command completed in 31 msecs.
+
+admin:/webfiles/site> logout
+Command completed in 222 msecs.
+
+jcr-shell:> quit
+Bye bye!
+
+        ]]></source>
+        </div>
+      </subsection>
+
+    </section>
+  </body>
+</document>
