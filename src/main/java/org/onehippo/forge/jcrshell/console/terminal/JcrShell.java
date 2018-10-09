@@ -22,6 +22,7 @@ import java.io.IOException;
 
 import javax.jcr.RepositoryException;
 
+import org.onehippo.forge.jcrshell.boot.ShellConfiguration;
 import org.onehippo.forge.jcrshell.console.completers.DirNameCompleter;
 import org.onehippo.forge.jcrshell.console.completers.FileNameCompleter;
 import org.onehippo.forge.jcrshell.core.Command;
@@ -52,43 +53,54 @@ public class JcrShell {
 
     /**
      * The main method to start the jcr shell.
-     * @param args ignored
      * @throws IOException io failure when starting shell
      */
-    public void start(final String[] args) throws IOException {
+    public void startShell(final ShellConfiguration shellConfiguration) throws IOException {
         final Terminal term = setupTerminal();
+
         registerCompleters();
         registerCommands();
         registerShutdownHook();
-        if (args.length == 0) {
-            final JcrShellSession session = new JcrShellSession();
-            JcrWrapper.setShellSession(session);
-            session.addListener(new JcrShellSession.SessionListener() {
 
-                @Override
-                public void onChangePath() {
-                    if (!JcrWrapper.isConnected() || session.getCurrentNode() == null) {
-                        term.setCommandLinePrompt(NOT_CONNECTED_PROMPT);
-                        return;
-                    }
-                    try {
-                        String path = session.getCurrentNode().getPath();
-                        if (path.length() > MAX_PROMPT_LENGTH) {
-                            String dots = "...";
-                            path = dots + path.substring(path.length() - MAX_PROMPT_LENGTH + dots.length());
-                        }
-                        term.setCommandLinePrompt(JcrWrapper.getUsername() + ":" + path + "> ");
-                    } catch (RepositoryException e) {
-                        log.info("Unable to determine path while setting prompt", e);
-                        term.setCommandLinePrompt(JcrWrapper.getUsername() + ":[unknown]> ");
-                    }
+        final JcrShellSession session = new JcrShellSession();
+        JcrWrapper.setShellSession(session);
+        session.addListener(new JcrShellSession.SessionListener() {
+
+            @Override
+            public void onChangePath() {
+                if (!JcrWrapper.isConnected() || session.getCurrentNode() == null) {
+                    term.setCommandLinePrompt(NOT_CONNECTED_PROMPT);
+                    return;
                 }
-            });
+                try {
+                    String path = session.getCurrentNode().getPath();
+                    if (path.length() > MAX_PROMPT_LENGTH) {
+                        String dots = "...";
+                        path = dots + path.substring(path.length() - MAX_PROMPT_LENGTH + dots.length());
+                    }
+                    term.setCommandLinePrompt(JcrWrapper.getUsername() + ":" + path + "> ");
+                } catch (RepositoryException e) {
+                    log.info("Unable to determine path while setting prompt", e);
+                    term.setCommandLinePrompt(JcrWrapper.getUsername() + ":[unknown]> ");
+                }
+            }
+        });
 
-            runShell(term);
-        } else {
-            runScript(args);
-        }
+        setUpServerAndUser(shellConfiguration);
+
+        runShell(term);
+    }
+
+    public void executeBatch(final ShellConfiguration shellConfiguration) throws IOException {
+        registerCommands();
+        registerShutdownHook();
+
+        final JcrShellSession session = new JcrShellSession();
+        JcrWrapper.setShellSession(session);
+
+        setUpServerAndUser(shellConfiguration);
+
+        runScript(shellConfiguration.getBatch().trim());
     }
 
     private Terminal setupTerminal() {
@@ -122,12 +134,40 @@ public class JcrShell {
         term.start();
     }
 
-    private void runScript(final String[] args) {
+    private void runScript(final String script) {
         try {
-            Terminal.run(new FileInputStream(new File(args[0])), System.out);
+            Terminal.run(new FileInputStream(new File(script)), System.out);
         } catch (FileNotFoundException e) {
-            log.error("Script file not found '{}'", args[0]);
+            log.error("Script file not found '{}'", script);
         }
     }
 
+    private void setUpServerAndUser(final ShellConfiguration shellConfiguration) {
+        String server = shellConfiguration.getServer();
+
+        if (server != null) {
+            server = server.trim();
+
+            if (!server.isEmpty()) {
+                JcrWrapper.setServer(server);
+            }
+        }
+
+        String user = shellConfiguration.getUser();
+
+        if (user != null) {
+            user = user.trim();
+
+            if (!user.isEmpty()) {
+                final int offset = user.indexOf(':');
+                final String username = (offset != -1) ? user.substring(0, offset) : user;
+                final String password = (offset != -1) ? user.substring(offset + 1) : null;
+                JcrWrapper.setUsername(username);
+
+                if (password != null) {
+                    JcrWrapper.setPassword(password);
+                }
+            }
+        }
+    }
 }
