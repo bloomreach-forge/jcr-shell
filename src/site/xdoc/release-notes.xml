@@ -32,6 +32,9 @@
           <li>
             Supporting <code>syspropget</code> and <code>syspropset</code> commands.
           </li>
+          <li>
+            Restoring <code>exportcnd</code> command.
+          </li>
         </ul>
       </subsection>
       <subsection name="2.0.1">
