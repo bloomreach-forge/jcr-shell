@@ -24,6 +24,16 @@
   </properties>
   <body>
     <section name="Release Notes">
+      <subsection name="2.0.2">
+        <ul>
+          <li>
+            Supporting command line arguments for <code>jexl</code> command.
+          </li>
+          <li>
+            Supporting <code>syspropget</code> and <code>syspropset</code> commands.
+          </li>
+        </ul>
+      </subsection>
       <subsection name="2.0.1">
         <ul>
           <li>
