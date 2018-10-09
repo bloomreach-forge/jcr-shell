@@ -29,7 +29,7 @@
 
   <groupId>org.onehippo.forge.jcrshell</groupId>
   <artifactId>jcrshell</artifactId>
-  <version>2.0.2-SNAPSHOT</version>
+  <version>2.0.2</version>
   <url>https://github.com/onehippo-forge/jcr-shell</url>
 
   <properties>
