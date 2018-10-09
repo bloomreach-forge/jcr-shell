@@ -194,7 +194,7 @@ filepwd             filepwd &lt;path&gt;
 findreferences      findreferences                                                                  
 finduuid            finduuid &lt;uuid&gt;                                                                 
 help                help [&lt;command&gt;]                                                                
-jexl                jexl &lt;path&gt;                                                                     
+jexl                jexl &lt;path&gt; [&lt;argument&gt; [..]]                                                   
 login               login                                                                           
 logout              logout                                                                          
 ls                  ls [&lt;path&gt;]                                                                     
@@ -234,6 +234,8 @@ save                save
 server              server [&lt;http(s)_url&gt;]                                                          
 sessionsave         sessionsave                                                                     
 status              status                                                                          
+syspropget          syspropget [&lt;property&gt;]                                                         
+syspropset          syspropset &lt;property&gt; &lt;value&gt;                                                   
 valueadd            valueadd &lt;propertyname&gt; &lt;value&gt; [&lt;type&gt;]                                        
 valueremove         valueremove &lt;property&gt; &lt;value&gt; [&lt;type&gt;]                                         
 versioncd           versioncd &lt;uuid&gt;                                                                
@@ -338,12 +340,25 @@ Bye bye!
           
 <tr class="b">
             
+<td><tt>arguments</tt></td>
+            
+<td>
+              The command line arguments passed to the JEXL script.
+              The first argument is the file path of the JEXL script,
+              followed by other arguments for the JEXL script.
+              For example, if you run <tt>&gt; jexl test.jexl 1 2 3</tt>, then
+              the <tt>arguments</tt> variable will look like [ &quot;test.jexl&quot;, &quot;1&quot;, &quot;2&quot;, &quot;3&quot; ].
+            </td>
+          </tr>
+          
+<tr class="a">
+            
 <td><tt>out</tt></td>
             
 <td>The output console, providing <tt>#println(CharSequence)</tt> method for JEXL scripts</td>
           </tr>
           
-<tr class="a">
+<tr class="b">
             
 <td><tt>node</tt></td>
             
@@ -359,6 +374,13 @@ Bye bye!
         
 <div class="source"><pre>
 // ~/temp/test.jexl
+var nu = new(&quot;org.apache.commons.lang3.math.NumberUtils&quot;);
+var sum = 0;
+for (arg : arguments) {
+  // 0 on parsing error as the first arg item is actually the jexl script file name.
+  sum += nu.toInt(arg, 0);
+}
+out.println(&quot;sum = &quot; + sum);
 out.println(&quot;You're currently on &quot; + node.path + &quot;.&quot;);
 return &quot;Optional return value to show after execution: Hello!&quot;;
         </pre></div>
@@ -373,16 +395,43 @@ return &quot;Optional return value to show after execution: Hello!&quot;;
         
 <div class="source"><pre>
 admin:/&gt; cd content/documents
-admin:...nt/documents&gt; jexl ~/temp/test.jexl
+admin:...nt/documents&gt; jexl ~/temp/test.jexl 1 2 3 4 5 6 7 8 9
+sum = 45
 You're currently on /content/documents.
 JEXL script executed. Return: Optional return value to show after execution: Hello!
-Command completed in 1 msecs.
+Command completed in 3 msecs.
+
         </pre></div>
         </div>
         
 <p>
           For more information about the JEXL syntax, see <a class="externalLink" href="http://commons.apache.org/proper/commons-jexl/reference/syntax.html">JEXL Syntax</a> page.
         </p>
+      </div>
+
+      
+<div class="section">
+<h3><a name="Extra_JARs_for_your_JEXL_scripts_or_others"></a>Extra JARs for your JEXL scripts or others</h3>
+        
+<p>
+          If you need to depend on any additional JAR files, not included in the <tt>jcrshell-x.x.x.jar</tt> by default,
+          you can use Spring Boot's <tt>loader.path</tt> system property to add any extra JARs to the classpath.
+        </p>
+        
+<p>
+          For example, the following will add all the JAR files found in <tt>lib/</tt> directory when executing the JCR Shell:
+        </p>
+        
+<div class="brush: bash">
+        
+<div class="source"><pre>
+$ java -Dloader.path=&quot;lib/&quot; \
+       -jar jcrshell-2.0.0.jar \
+       --server=&quot;http://localhost:8080/cms/server&quot; \
+       --user=&quot;admin:admin&quot;
+
+        </pre></div>
+        </div>
       </div>
 
       
