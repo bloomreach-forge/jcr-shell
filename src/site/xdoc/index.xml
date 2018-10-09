@@ -214,7 +214,8 @@ Bye bye!
 
       <subsection name="jexl command">
         <p>
-          The <code>jexl</code> command allows you to execute a JEXL script file for more advanced use cases.
+          The <code>jexl</code> command allows you to execute a
+          <a href="http://commons.apache.org/proper/commons-jexl/">JEXL</a> script file for more advanced use cases.
         </p>
         <p>
           The following variables are provided to JEXL script files:
@@ -233,6 +234,32 @@ Bye bye!
             <td>The JCR node you are currently based on in the shell.</td>
           </tr>
         </table>
+        <p>
+          Here's a very simple <a href="http://commons.apache.org/proper/commons-jexl/">JEXL</a> script file example:
+        </p>
+        <div class="brush: javascript">
+        <source><![CDATA[
+// ~/temp/test.jexl
+out.println("You're currently on " + node.path + ".");
+return "Optional return value to show after execution: Hello!";
+        ]]></source>
+        </div>
+        <p>
+          Then you can execute the <a href="http://commons.apache.org/proper/commons-jexl/">JEXL</a> script file
+          like this:
+        </p>
+        <div class="brush: plain">
+        <source><![CDATA[
+admin:/> cd content/documents
+admin:...nt/documents> jexl ~/temp/test.jexl
+You're currently on /content/documents.
+JEXL script executed. Return: Optional return value to show after execution: Hello!
+Command completed in 1 msecs.
+        ]]></source>
+        </div>
+        <p>
+          For more information about the JEXL syntax, see <a href="http://commons.apache.org/proper/commons-jexl/reference/syntax.html">JEXL Syntax</a> page.
+        </p>
       </subsection>
 
       <subsection name="Run Batch Commands">
