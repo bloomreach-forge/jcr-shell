@@ -31,10 +31,17 @@
           which provides JCR API access over WebDAV/HTTP(S).
         </p>
         <p>
-          In order to enable <a href="http://jackrabbit.apache.org/jcr/components/jackrabbit-web-application.html#JCR_Webdav_Server">JCR Webdav Server</a>
-          in Hippo CMS, please see <a href="https://onehippo-forge.github.io/hippo-jcr-over-webdav/">Hippo Repository JCR/WebDAV Support</a>
-          forge project homepage.
+          JCR Shell is a pure JCR/Jackrabbit based client tool. Therefore, this tool should work against any Apache Jackrabbit
+          based JCR system.
         </p>
+        <div class="alert alert-info">
+          <p>
+            If you want to use JCR Shell against Hippo CMS, enable <a href="http://jackrabbit.apache.org/jcr/components/jackrabbit-web-application.html#JCR_Webdav_Server">JCR Webdav Server</a>
+            in the system.
+            See <a href="https://onehippo-forge.github.io/hippo-jcr-over-webdav/">Hippo Repository JCR/WebDAV Support</a>
+            forge project homepage for detail.
+          </p>
+        </div>
       </subsection>
 
       <subsection name="Download">
@@ -51,7 +58,7 @@
         </p>
         <div class="brush: plain">
         <source><![CDATA[
-$ java -jar jcrshell-2.0.0.jar
+$ java -jar jcrshell-2.0.0.jar --server="http://localhost:8080/cms/server" --user="admin:admin"
 
   .   ____          _            __ _ _
  /\\ / ___'_ __ _ _(_)_ __  __ _ \ \ \ \
@@ -73,34 +80,6 @@ jcr-shell:>
 
       <subsection name="Available Commands">
         <p>
-          Most of all, the following commands are necessary to connect and disconnect JCR server.
-        </p>
-        <ul>
-          <li>
-            <strong>server</strong>: set JCR server address.
-            e.g. <code>server http://localhost:8080/cms/server</code>
-          </li>
-          <li>
-            <strong>credentials</strong>: set username and password to access JCR server.
-            e.g. <code>credentials admin</code>
-          </li>
-          <li>
-            <strong>login</strong>: log in to JCR server.
-          </li>
-          <li>
-            <strong>save</strong>: save the changes.
-          </li>
-          <li>
-            <strong>reset</strong>: reset the changes.
-          </li>
-          <li>
-            <strong>logout</strong>: log out from JCR server.
-          </li>
-          <li>
-            <strong>quit</strong>: exit the JCR Shell.
-          </li>
-        </ul>
-        <p>
           You can execute <code>help</code> to see all the available commands with descriptions.
         </p>
         <div class="brush: plain">
@@ -121,6 +100,7 @@ filepwd             filepwd <path>
 findreferences      findreferences                                                                  
 finduuid            finduuid <uuid>                                                                 
 help                help [<command>]                                                                
+jexl                jexl <path>                                                                     
 login               login                                                                           
 logout              logout                                                                          
 ls                  ls [<path>]                                                                     
@@ -179,28 +159,31 @@ jcr-shell:>
 
         ]]></source>
         </div>
+        <p>
+          You can execute <code>help &lt;command&gt;</code> to see the detail of the specific <code>command</code>
+          like the following example:
+        </p>
+        <div class="brush: plain">
+        <source><![CDATA[
+jcr-shell:> help pwd
+Usage: pwd
+   Show path to current node
+Command completed in 0 msecs.
+
+        ]]></source>
+        </div>
       </subsection>
 
-      <subsection name="Example Usage - Setting a property">
+      <subsection name="Example Usage Session - Setting a property">
         <p>
           In this section, let's try to change a property value and save it, as an example.
         </p>
         <div class="brush: plain">
         <source><![CDATA[
-jcr-shell:> server http://localhost:8080/cms/server
-Command completed in 0 msecs.
-
-jcr-shell:> credentials admin
-password: *****
-Command completed in 1209 msecs.
-
-jcr-shell:> login
+jcr-shell:> cd /webfiles/site
 
 done.
-Command completed in 1789 msecs.
-
-admin:/> cd /webfiles/site
-Command completed in 90 msecs.
+Command completed in 879 msecs.
 
 admin:/webfiles/site> proplist
 ----------------------------------------------------------------------------------------------------------------
@@ -222,13 +205,92 @@ admin:/webfiles/site> save
 Node saved.
 Command completed in 31 msecs.
 
-admin:/webfiles/site> logout
-Command completed in 222 msecs.
-
 jcr-shell:> quit
 Bye bye!
 
         ]]></source>
+        </div>
+      </subsection>
+
+      <subsection name="jexl command">
+        <p>
+          The <code>jexl</code> command allows you to execute a
+          <a href="http://commons.apache.org/proper/commons-jexl/">JEXL</a> script file for more advanced use cases.
+        </p>
+        <p>
+          The following variables are provided to JEXL script files:
+        </p>
+        <table>
+          <tr>
+            <th>Variable</th>
+            <th>Description</th>
+          </tr>
+          <tr>
+            <td><code>out</code></td>
+            <td>The output console, providing <code>#println(CharSequence)</code> method for JEXL scripts</td>
+          </tr>
+          <tr>
+            <td><code>node</code></td>
+            <td>The JCR node you are currently based on in the shell.</td>
+          </tr>
+        </table>
+        <p>
+          Here's a very simple <a href="http://commons.apache.org/proper/commons-jexl/">JEXL</a> script file example:
+        </p>
+        <div class="brush: javascript">
+        <source><![CDATA[
+// ~/temp/test.jexl
+out.println("You're currently on " + node.path + ".");
+return "Optional return value to show after execution: Hello!";
+        ]]></source>
+        </div>
+        <p>
+          Then you can execute the <a href="http://commons.apache.org/proper/commons-jexl/">JEXL</a> script file
+          like this:
+        </p>
+        <div class="brush: plain">
+        <source><![CDATA[
+admin:/> cd content/documents
+admin:...nt/documents> jexl ~/temp/test.jexl
+You're currently on /content/documents.
+JEXL script executed. Return: Optional return value to show after execution: Hello!
+Command completed in 1 msecs.
+        ]]></source>
+        </div>
+        <p>
+          For more information about the JEXL syntax, see <a href="http://commons.apache.org/proper/commons-jexl/reference/syntax.html">JEXL Syntax</a> page.
+        </p>
+      </subsection>
+
+      <subsection name="Run Batch Commands">
+        <p>
+          You can execute a batch file containing one or multiple lines of each command explained above as well
+          by specifying <code>--batch</code> argument like the following example:
+        </p>
+        <div class="brush: plain">
+        <source><![CDATA[
+$ java -jar jcrshell-2.0.0.jar --server="http://localhost:8080/cms/server" --user="admin:admin" --batch="test.sh"
+
+  .   ____          _            __ _ _
+ /\\ / ___'_ __ _ _(_)_ __  __ _ \ \ \ \
+( ( )\___ | '_ | '_| | '_ \/ _` | \ \ \ \
+ \\/  ___)| |_)| | | | | || (_| |  ) ) ) )
+  '  |____| .__|_| |_|_| |_\__, | / / / /
+ =========|_|==============|___/=/_/_/_/
+ :: Spring Boot ::        (v2.0.4.RELEASE)
+
+JCR Shell 2.0.0
+...
+        ]]></source>
+        </div>
+        <p>
+          If you specify a batch file by <code>--batch</code> argument, then JCR Shell will read all the non-blank
+          lines from the file except of comment lines.
+        </p>
+        <div class="alert alert-info">
+          <p>
+            If a line in a batch file starts with "#", the line is regarded as a comment.
+          </p>
         </div>
       </subsection>
 

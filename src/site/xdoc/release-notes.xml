@@ -24,6 +24,13 @@
   </properties>
   <body>
     <section name="Release Notes">
+      <subsection name="2.0.1">
+        <ul>
+          <li>
+            Supporting <code>jexl</code> command for more advanced programmatic use cases.
+          </li>
+        </ul>
+      </subsection>
       <subsection name="2.0.0">
         <ul>
           <li>
