@@ -40,10 +40,12 @@ public class Jexl extends AbstractCommand {
 
     public static final String CURRENT_NODE_VAR_NAME = "node";
 
+    public static final String ARGUMENTS_VAR_NAME = "arguments";
+
     private static final ArgumentType[] ARGUMENTS = new ArgumentType[] { ArgumentType.FILE };
 
     public Jexl() {
-        super("jexl", new String[0], "jexl <path>", "execute script in JEXL3 syntax",
+        super("jexl", new String[0], "jexl <path> [<argument> [..]]", "execute script in JEXL3 syntax",
                 ARGUMENTS);
     }
 
@@ -60,7 +62,7 @@ public class Jexl extends AbstractCommand {
         try {
             final JexlEngine engine = new JexlBuilder().strict(true).create();
             final JexlScript script = engine.createScript(scriptFile);
-            final Object retObj = script.execute(createJexlContext());
+            final Object retObj = script.execute(createJexlContext(args));
             JcrShellPrinter.printOkln("JEXL script executed. Return: " + retObj);
             return true;
         } catch (Exception e) {
@@ -74,8 +76,11 @@ public class Jexl extends AbstractCommand {
         return args.length >= 2;
     }
 
-    private JexlContext createJexlContext() {
+    private JexlContext createJexlContext(String[] args) {
         JexlContext jexlContext = new MapContext();
+        String[] scriptArgv = new String[args.length - 1];
+        System.arraycopy(args, 1, scriptArgv, 0, scriptArgv.length);
+        jexlContext.set(ARGUMENTS_VAR_NAME, scriptArgv);
         jexlContext.set(OUT_VAR_NAME, JcrShellPrinter.class);
         final Node node = JcrWrapper.getCurrentNode();
         jexlContext.set(CURRENT_NODE_VAR_NAME, node);

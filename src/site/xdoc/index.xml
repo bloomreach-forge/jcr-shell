@@ -100,7 +100,7 @@ filepwd             filepwd <path>
 findreferences      findreferences                                                                  
 finduuid            finduuid <uuid>                                                                 
 help                help [<command>]                                                                
-jexl                jexl <path>                                                                     
+jexl                jexl <path> [<argument> [..]]                                                   
 login               login                                                                           
 logout              logout                                                                          
 ls                  ls [<path>]                                                                     
@@ -140,6 +140,8 @@ save                save
 server              server [<http(s)_url>]                                                          
 sessionsave         sessionsave                                                                     
 status              status                                                                          
+syspropget          syspropget [<property>]                                                         
+syspropset          syspropset <property> <value>                                                   
 valueadd            valueadd <propertyname> <value> [<type>]                                        
 valueremove         valueremove <property> <value> [<type>]                                         
 versioncd           versioncd <uuid>                                                                
@@ -226,6 +228,16 @@ Bye bye!
             <th>Description</th>
           </tr>
           <tr>
+            <td><code>arguments</code></td>
+            <td>
+              The command line arguments passed to the JEXL script.
+              The first argument is the file path of the JEXL script,
+              followed by other arguments for the JEXL script.
+              For example, if you run <code>&gt; jexl test.jexl 1 2 3</code>, then
+              the <code>arguments</code> variable will look like <cod>[ "test.jexl", "1", "2", "3" ]</cod>.
+            </td>
+          </tr>
+          <tr>
             <td><code>out</code></td>
             <td>The output console, providing <code>#println(CharSequence)</code> method for JEXL scripts</td>
           </tr>
@@ -240,6 +252,13 @@ Bye bye!
         <div class="brush: javascript">
         <source><![CDATA[
 // ~/temp/test.jexl
+var nu = new("org.apache.commons.lang3.math.NumberUtils");
+var sum = 0;
+for (arg : arguments) {
+  // 0 on parsing error as the first arg item is actually the jexl script file name.
+  sum += nu.toInt(arg, 0);
+}
+out.println("sum = " + sum);
 out.println("You're currently on " + node.path + ".");
 return "Optional return value to show after execution: Hello!";
         ]]></source>
@@ -251,15 +270,36 @@ return "Optional return value to show after execution: Hello!";
         <div class="brush: plain">
         <source><![CDATA[
 admin:/> cd content/documents
-admin:...nt/documents> jexl ~/temp/test.jexl
+admin:...nt/documents> jexl ~/temp/test.jexl 1 2 3 4 5 6 7 8 9
+sum = 45
 You're currently on /content/documents.
 JEXL script executed. Return: Optional return value to show after execution: Hello!
-Command completed in 1 msecs.
+Command completed in 3 msecs.
+
         ]]></source>
         </div>
         <p>
           For more information about the JEXL syntax, see <a href="http://commons.apache.org/proper/commons-jexl/reference/syntax.html">JEXL Syntax</a> page.
         </p>
+      </subsection>
+
+      <subsection name="Extra JARs for your JEXL scripts or others">
+        <p>
+          If you need to depend on any additional JAR files, not included in the <code>jcrshell-x.x.x.jar</code> by default,
+          you can use Spring Boot's <code>loader.path</code> system property to add any extra JARs to the classpath.
+        </p>
+        <p>
+          For example, the following will add all the JAR files found in <code>lib/</code> directory when executing the JCR Shell:
+        </p>
+        <div class="brush: bash">
+        <source><![CDATA[
+$ java -Dloader.path="lib/" \
+       -jar jcrshell-2.0.0.jar \
+       --server="http://localhost:8080/cms/server" \
+       --user="admin:admin"
+
+        ]]></source>
+        </div>
       </subsection>
 
       <subsection name="Run Batch Commands">
