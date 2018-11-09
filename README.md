@@ -2,13 +2,13 @@
 
 Provides shell access to JCR system through JCR over WebDAV protocol.
 
-Documentation site: [https://onehippo-forge.github.io/jcr-shell](https://onehippo-forge.github.io/jcr-shell).
+Documentation site: [https://bloomreach-forge.github.io/jcr-shell](https://bloomreach-forge.github.io/jcr-shell).
 
 ## Prerequisites
 
 You need to open JCR over WebDAV access in your JCR server first.
 
-As an example, you can use the [Hippo Repository JCR over WebDAV Support](https://github.com/onehippo-forge/hippo-jcr-over-webdav) forge module to enable it.
+As an example, you can use the [Hippo Repository JCR over WebDAV Support](https://github.com/bloomreach-forge/hippo-jcr-over-webdav) forge module to enable it.
 
 ## Download JCR Shell
 

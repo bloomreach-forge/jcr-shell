@@ -26,7 +26,7 @@
     <hippoSkin>
       <!-- Add a 'Fork me on GitHub' ribbon  -->
       <gitHub>
-        <projectId>onehippo-forge/jcr-shell</projectId>
+        <projectId>bloomreach-forge/jcr-shell</projectId>
       </gitHub>
     </hippoSkin>
   </custom>
