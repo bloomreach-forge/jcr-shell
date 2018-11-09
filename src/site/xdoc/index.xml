@@ -38,7 +38,7 @@
           <p>
             If you want to use JCR Shell against Hippo CMS, enable <a href="http://jackrabbit.apache.org/jcr/components/jackrabbit-web-application.html#JCR_Webdav_Server">JCR Webdav Server</a>
             in the system.
-            See <a href="https://onehippo-forge.github.io/hippo-jcr-over-webdav/">Hippo Repository JCR/WebDAV Support</a>
+            See <a href="https://bloomreach-forge.github.io/hippo-jcr-over-webdav/">Hippo Repository JCR/WebDAV Support</a>
             forge project homepage for detail.
           </p>
         </div>
@@ -46,7 +46,7 @@
 
       <subsection name="Download">
         <p>
-          You can download an <i>executable</i> JAR file of JCR Shell from Hippo Forge Maven repository:
+          You can download an <i>executable</i> JAR file of JCR Shell from Bloomreach Forge Maven repository:
           <a href="https://maven.onehippo.com/maven2-forge/org/onehippo/forge/jcrshell/jcrshell/">https://maven.onehippo.com/maven2-forge/org/onehippo/forge/jcrshell/jcrshell/</a>.
           Move to the latest version directory and download <code>jcrshell-x.x.x.jar</code> from there.
         </p>

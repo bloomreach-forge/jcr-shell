@@ -30,7 +30,7 @@
   <groupId>org.onehippo.forge.jcrshell</groupId>
   <artifactId>jcrshell</artifactId>
   <version>2.0.2</version>
-  <url>https://github.com/onehippo-forge/jcr-shell</url>
+  <url>https://github.com/bloomreach-forge/jcr-shell</url>
 
   <properties>
 
@@ -61,9 +61,9 @@
   </licenses>
 
   <scm>
-    <connection>scm:git:git@github.com:onehippo-forge/jcr-shell.git</connection>
-    <developerConnection>scm:git:git@github.com:onehippo-forge/jcr-shell.git</developerConnection>
-    <url>https://github.com/onehippo-forge/jcr-shell.git</url>
+    <connection>scm:git:git@github.com:bloomreach-forge/jcr-shell.git</connection>
+    <developerConnection>scm:git:git@github.com:bloomreach-forge/jcr-shell.git</developerConnection>
+    <url>https://github.com/bloomreach-forge/jcr-shell.git</url>
     <tag>HEAD</tag>
   </scm>
 
@@ -82,7 +82,7 @@
 
   <ciManagement>
     <system>Travic CI</system>
-    <url>https://travis-ci.org/onehippo-forge/jcr-shell</url>
+    <url>https://travis-ci.org/bloomreach-forge/jcr-shell</url>
   </ciManagement>
 
   <developers>
