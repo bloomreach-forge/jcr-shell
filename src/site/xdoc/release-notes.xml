@@ -1,6 +1,6 @@
 <?xml version="1.0"?>
 <!--
-    Copyright 2018 Hippo
+    Copyright 2018-2019 Hippo
 
     Licensed to the Apache Software Foundation (ASF) under one or more
     contributor license agreements.  See the NOTICE file distributed with
@@ -24,6 +24,12 @@
   </properties>
   <body>
     <section name="Release Notes">
+      <subsection name="2.0.3">
+        <ul>
+          <li>[<a href='https://issues.onehippo.com/browse/HIPFORGE-297'>HIPFORGE-297</a>] -         [JCR Shell] Upgrade Jackrabbit and Spring-boot dependencies
+          </li>
+        </ul>
+      </subsection>
       <subsection name="2.0.2">
         <ul>
           <li>
